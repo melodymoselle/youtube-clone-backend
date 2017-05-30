@@ -30,17 +30,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 public class UserControllerTest {
 
-    @Mock
     private UserService userService;
-
-    @InjectMocks
     private UserController userController;
-
     private MockMvc mockMvc;
 
     @Before
     public void before(){
-        MockitoAnnotations.initMocks(this);
+        userService = mock(UserService.class);
+        userController = new UserController(userService);
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
     }
 
