@@ -1,11 +1,13 @@
 package com.melex.models;
 
+import org.springframework.context.annotation.Bean;
+
 import javax.persistence.Entity;
 
-@Entity
+
 public class User {
 
-    private int id;
+    private long id;
     private String email;
     private String username;
     private String password;
@@ -13,18 +15,24 @@ public class User {
     public User() {
     }
 
-    public User(int id, String email, String username, String password) {
+    public User(long id, String email, String username, String password) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.password = password;
     }
 
-    public int getId() {
+    public User(String email, String username, String password) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
