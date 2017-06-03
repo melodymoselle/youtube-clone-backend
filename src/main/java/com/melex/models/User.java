@@ -1,10 +1,5 @@
 package com.melex.models;
 
-import org.springframework.context.annotation.Bean;
-
-import javax.persistence.Entity;
-
-
 public class User {
 
     private long id;

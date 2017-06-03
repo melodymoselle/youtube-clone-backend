@@ -2,11 +2,11 @@ package com.melex.data;
 
 import com.melex.models.User;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface UserService {
+@Component
+public interface UserRepository {
     List<User> findAll();
     List<User> findAll(int count);
     User findById(long id);
