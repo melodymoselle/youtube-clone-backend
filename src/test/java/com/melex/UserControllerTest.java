@@ -1,5 +1,6 @@
 package com.melex;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.melex.api.UserController;
 import com.melex.data.UserRepository;
 import com.melex.models.User;
@@ -62,11 +63,12 @@ public class UserControllerTest {
     public void shouldProcessRegistrationAndReturnUserWithId() throws Exception{
         User unsaved = new User(EMAIL, UNAME, PWORD);
         User saved = new User(10L, EMAIL, UNAME, PWORD);
+        String json = new ObjectMapper().writeValueAsString(unsaved);
+        //Need to override User equals() method??
         when(userRepository.register(unsaved)).thenReturn(saved);
-        mockMvc.perform(post("/api/register")
-                .param("email", EMAIL)
-                .param("username", UNAME)
-                .param("password", PWORD))
+        mockMvc.perform(post("/api/users/register")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(json))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$", hasSize(1)))
