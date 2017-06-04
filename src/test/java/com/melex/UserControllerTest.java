@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -25,6 +25,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = UserController.class)
 public class UserControllerTest {
+
+    private static final String EMAIL = "iamgroot@gmail.com";
+    private static final String UNAME = "iamgroot";
+    private static final String PWORD = "iamgroot";
 
     @Autowired
     private MockMvc mockMvc;
@@ -52,6 +56,26 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$", hasSize(10)));
 
         verify(userRepository, times(1)).findAll();
+    }
+
+    @Test
+    public void shouldProcessRegistrationAndReturnUserWithId() throws Exception{
+        User unsaved = new User(EMAIL, UNAME, PWORD);
+        User saved = new User(10L, EMAIL, UNAME, PWORD);
+        when(userRepository.register(unsaved)).thenReturn(saved);
+        mockMvc.perform(post("/api/register")
+                .param("email", EMAIL)
+                .param("username", UNAME)
+                .param("password", PWORD))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id", is(10L)))
+                .andExpect(jsonPath("$[0].email", is(EMAIL)))
+                .andExpect(jsonPath("$[0].username", is(UNAME)))
+                .andExpect(jsonPath("$[0].password", is(PWORD)));
+
+        verify(userRepository, times(1)).register(unsaved);
     }
 
     private List<User> createUserList(int count) {
