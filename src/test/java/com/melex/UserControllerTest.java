@@ -14,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.servlet.view.script.ScriptTemplateConfigurer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,9 @@ public class UserControllerTest {
     private static final String UNAME = "iamgroot";
     private static final String PWORD = "iamgroot";
 
+    private static final User UNSAVED = new User(EMAIL, UNAME, PWORD);
+    private static final User SAVED = new User(ID_LONG, EMAIL, UNAME, PWORD);
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -45,7 +49,6 @@ public class UserControllerTest {
 
     @After
     public void after(){
-
     }
 
     @Test
@@ -62,11 +65,26 @@ public class UserControllerTest {
     }
 
     @Test
+    public void shouldReturnUserByUsername() throws Exception{
+        when(userRepository.findByUsername(UNAME)).thenReturn(SAVED);
+
+        mockMvc.perform(get("/api/users/"+UNAME)
+            .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.id", is(ID_INT)))
+                .andExpect(jsonPath("$.email", is(EMAIL)))
+                .andExpect(jsonPath("$.username", is(UNAME)))
+                .andExpect(jsonPath("$.password", is(PWORD)));
+
+        verify(userRepository, times(1)).findByUsername(UNAME);
+    }
+
+    @Test
     public void shouldProcessRegistrationAndReturnUserWithId() throws Exception{
-        User unsaved = new User(EMAIL, UNAME, PWORD);
-        User saved = new User(ID_LONG, EMAIL, UNAME, PWORD);
-        String json = new ObjectMapper().writeValueAsString(unsaved);
-        when(userRepository.register(unsaved)).thenReturn(saved);
+        String json = new ObjectMapper().writeValueAsString(UNSAVED);
+        when(userRepository.register(UNSAVED)).thenReturn(SAVED);
+
         mockMvc.perform(post("/api/users/register")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(json))
@@ -77,7 +95,7 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.username", is(UNAME)))
                 .andExpect(jsonPath("$.password", is(PWORD)));
 
-        verify(userRepository, times(1)).register(unsaved);
+        verify(userRepository, times(1)).register(UNSAVED);
     }
 
     private List<User> createUserList(int count) {

@@ -3,6 +3,7 @@ package com.melex.api;
 import com.melex.data.UserRepository;
 import com.melex.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,11 @@ public class UserController {
     @RequestMapping(method = GET)
     public List<User> users() {
         return userRepository.findAll();
+    }
+
+    @RequestMapping(value = "/{username}", method = GET)
+    public User userByUsername(@PathVariable ("username") String username){
+        return userRepository.findByUsername(username);
     }
 
     @RequestMapping(value = "/register", method = POST)
