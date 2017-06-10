@@ -14,8 +14,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.servlet.view.script.ScriptTemplateConfigurer;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,7 +99,7 @@ public class UserControllerTest {
     private List<User> createUserList(int count) {
         List<User> users = new ArrayList<User>();
         for (int i = 0; i < count; i++) {
-            users.add(new User(i, "Email " + i, "Username " + i, "Password " + i));
+            users.add(new User(i, EMAIL+ i, UNAME + i, PWORD + i));
         }
         return users;
     }
