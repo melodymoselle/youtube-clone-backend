@@ -9,7 +9,7 @@ import java.util.List;
 public interface UserRepository {
     List<User> findAll();
     List<User> findAll(int count);
-    User findById(long id);
+    User findOne(int id);
     User findByUsername(String username);
     User register(User user);
     User update(User user);

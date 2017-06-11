@@ -1,5 +1,6 @@
 package com.melex.api;
 
+import com.melex.data.JdbcUserRepository;
 import com.melex.data.UserRepository;
 import com.melex.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository userRepository = new JdbcUserRepository();
 
     @RequestMapping(method = GET)
     public List<User> users() {

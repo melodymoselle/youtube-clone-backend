@@ -3,6 +3,9 @@ package com.melex.config;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class DataSourceConfiguration {
@@ -17,5 +20,10 @@ public class DataSourceConfiguration {
         ds.setInitialSize(5);
         ds.setMaxTotal(10);
         return ds;
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
     }
 }

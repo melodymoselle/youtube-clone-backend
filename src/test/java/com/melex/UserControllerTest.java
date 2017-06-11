@@ -14,7 +14,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.servlet.view.script.ScriptTemplateConfigurer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = UserController.class)
 public class UserControllerTest {
 
-    private static final long ID_LONG = 10L;
+    private static final int ID_LONG = 10L;
     private static final int ID_INT = 10;
     private static final String EMAIL = "iamgroot@gmail.com";
     private static final String UNAME = "iamgroot";
