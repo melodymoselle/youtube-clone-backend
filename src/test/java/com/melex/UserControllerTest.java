@@ -65,7 +65,7 @@ public class UserControllerTest {
 
     @Test
     public void shouldReturnUserByUsername() throws Exception{
-        when(userRepository.findByUsername(UNAME)).thenReturn(SAVED);
+        when(userRepository.findOne(UNAME)).thenReturn(SAVED);
 
         mockMvc.perform(get("/api/users/"+UNAME)
             .contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -76,7 +76,7 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.username", is(UNAME)))
                 .andExpect(jsonPath("$.password", is(PWORD)));
 
-        verify(userRepository, times(1)).findByUsername(UNAME);
+        verify(userRepository, times(1)).findOne(UNAME);
     }
 
     @Test

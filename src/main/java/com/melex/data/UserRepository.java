@@ -10,7 +10,6 @@ public interface UserRepository {
     List<User> findAll();
     List<User> findAll(int count);
     User findOne(int id);
-    User findByUsername(String username);
+    User findOne(String username);
     User register(User user);
-    User update(User user);
 }

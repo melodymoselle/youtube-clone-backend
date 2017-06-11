@@ -1,9 +1,9 @@
 package com.melex.config;
 
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
@@ -11,14 +11,12 @@ import javax.sql.DataSource;
 public class DataSourceConfiguration {
 
     @Bean
-    public BasicDataSource dataSource() {
-        BasicDataSource ds = new BasicDataSource();
-        ds.setDriverClassName("org.h2.Driver");
-        ds.setUrl("jdbc:mysql://localhost:3306/youtube");
-        ds.setUsername("root");
-        ds.setPassword("");
-        ds.setInitialSize(5);
-        ds.setMaxTotal(10);
+    public DriverManagerDataSource dataSource() {
+        DriverManagerDataSource ds = new DriverManagerDataSource();
+        ds.setDriverClassName("com.mysql.jdbc.Driver");
+        ds.setUrl("jdbc:mysql://localhost/youtube");
+        ds.setUsername("${db_username}");
+        ds.setPassword("${db_password}");
         return ds;
     }
 

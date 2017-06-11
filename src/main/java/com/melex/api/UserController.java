@@ -28,7 +28,7 @@ public class UserController {
 
     @RequestMapping(value = "/{username}", method = GET)
     public User userByUsername(@PathVariable ("username") String username){
-        return userRepository.findByUsername(username);
+        return userRepository.findOne(username);
     }
 
     @RequestMapping(value = "/register", method = POST)
