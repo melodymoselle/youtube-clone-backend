@@ -27,14 +27,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = UserController.class)
 public class UserControllerTest {
 
-    private static final int ID_LONG = 10L;
-    private static final int ID_INT = 10;
+    private static final int ID = 10;
     private static final String EMAIL = "iamgroot@gmail.com";
     private static final String UNAME = "iamgroot";
     private static final String PWORD = "iamgroot";
 
     private static final User UNSAVED = new User(EMAIL, UNAME, PWORD);
-    private static final User SAVED = new User(ID_LONG, EMAIL, UNAME, PWORD);
+    private static final User SAVED = new User(ID, EMAIL, UNAME, PWORD);
 
     @Autowired
     private MockMvc mockMvc;
@@ -71,7 +70,7 @@ public class UserControllerTest {
             .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.id", is(ID_INT)))
+                .andExpect(jsonPath("$.id", is(ID)))
                 .andExpect(jsonPath("$.email", is(EMAIL)))
                 .andExpect(jsonPath("$.username", is(UNAME)))
                 .andExpect(jsonPath("$.password", is(PWORD)));
@@ -89,7 +88,7 @@ public class UserControllerTest {
                 .content(json))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.id", is(ID_INT)))
+                .andExpect(jsonPath("$.id", is(ID)))
                 .andExpect(jsonPath("$.email", is(EMAIL)))
                 .andExpect(jsonPath("$.username", is(UNAME)))
                 .andExpect(jsonPath("$.password", is(PWORD)));
