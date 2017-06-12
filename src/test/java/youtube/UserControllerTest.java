@@ -1,9 +1,9 @@
-package com.melex;
+package youtube;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.melex.api.UserController;
-import com.melex.data.UserRepository;
-import com.melex.models.User;
+import youtube.api.UserController;
+import youtube.data.UserRepository;
+import youtube.models.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

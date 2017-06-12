@@ -1,4 +1,4 @@
-package com.melex.models;
+package youtube.models;
 
 public class User {
 

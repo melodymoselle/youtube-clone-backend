@@ -1,8 +1,8 @@
-package com.melex.api;
+package youtube.api;
 
-import com.melex.data.JdbcUserRepository;
-import com.melex.data.UserRepository;
-import com.melex.models.User;
+import youtube.data.JdbcUserRepository;
+import youtube.data.UserRepository;
+import youtube.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
