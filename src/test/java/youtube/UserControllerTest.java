@@ -1,9 +1,9 @@
-package com.melex;
+package youtube;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.melex.api.UserController;
-import com.melex.data.UserRepository;
-import com.melex.models.User;
+import youtube.api.UserController;
+import youtube.data.UserRepository;
+import youtube.models.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +14,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.servlet.view.script.ScriptTemplateConfigurer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +27,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = UserController.class)
 public class UserControllerTest {
 
-    private static final long ID_LONG = 10L;
-    private static final int ID_INT = 10;
+    private static final int ID = 10;
     private static final String EMAIL = "iamgroot@gmail.com";
     private static final String UNAME = "iamgroot";
     private static final String PWORD = "iamgroot";
 
     private static final User UNSAVED = new User(EMAIL, UNAME, PWORD);
-    private static final User SAVED = new User(ID_LONG, EMAIL, UNAME, PWORD);
+    private static final User SAVED = new User(ID, EMAIL, UNAME, PWORD);
 
     @Autowired
     private MockMvc mockMvc;
@@ -66,18 +64,18 @@ public class UserControllerTest {
 
     @Test
     public void shouldReturnUserByUsername() throws Exception{
-        when(userRepository.findByUsername(UNAME)).thenReturn(SAVED);
+        when(userRepository.findOne(UNAME)).thenReturn(SAVED);
 
         mockMvc.perform(get("/api/users/"+UNAME)
             .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.id", is(ID_INT)))
+                .andExpect(jsonPath("$.id", is(ID)))
                 .andExpect(jsonPath("$.email", is(EMAIL)))
                 .andExpect(jsonPath("$.username", is(UNAME)))
                 .andExpect(jsonPath("$.password", is(PWORD)));
 
-        verify(userRepository, times(1)).findByUsername(UNAME);
+        verify(userRepository, times(1)).findOne(UNAME);
     }
 
     @Test
@@ -90,7 +88,7 @@ public class UserControllerTest {
                 .content(json))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.id", is(ID_INT)))
+                .andExpect(jsonPath("$.id", is(ID)))
                 .andExpect(jsonPath("$.email", is(EMAIL)))
                 .andExpect(jsonPath("$.username", is(UNAME)))
                 .andExpect(jsonPath("$.password", is(PWORD)));
