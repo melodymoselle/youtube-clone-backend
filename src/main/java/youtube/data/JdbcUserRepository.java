@@ -2,7 +2,6 @@ package youtube.data;
 
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import youtube.exceptions.UsernameExistsException;
 import youtube.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,20 +28,15 @@ public class JdbcUserRepository implements UserRepository{
     }
 
     @Override
-    public List<User> findAll(int count) {
-        return null;
-    }
-
-    @Override
     public User findOne(int id) {
         String sql = "SELECT * FROM users WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, new UserRowMapper(), id);
+        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), id);
     }
 
     @Override
     public User findOne(String username) {
         String sql = "SELECT * FROM users WHERE username = ?";
-        return jdbcTemplate.queryForObject(sql, new UserRowMapper(), username);
+        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), username);
     }
 
     @Override
@@ -53,15 +46,13 @@ public class JdbcUserRepository implements UserRepository{
 
         try {
             jdbcTemplate.update(
-            new PreparedStatementCreator() {
-                public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-                PreparedStatement ps = connection.prepareStatement(sql, new String[] { "id" });
-                ps.setString(1, user.getEmail());
-                ps.setString(2, user.getUsername());
-                ps.setString(3, user.getPassword());
-                return ps;
-                }
-        }, keys);}
+                    connection -> {
+                    PreparedStatement ps = connection.prepareStatement(sql, new String[] { "id" });
+                    ps.setString(1, user.getEmail());
+                    ps.setString(2, user.getUsername());
+                    ps.setString(3, user.getPassword());
+                    return ps;
+                    }, keys);}
         catch (DuplicateKeyException e){
             throw new UsernameExistsException(user.getUsername());
         }

@@ -2,7 +2,6 @@ package youtube;
 
 import youtube.data.JdbcUserRepository;
 import youtube.models.User;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +21,6 @@ public class JdbcUserRepositoryTest {
     @Autowired
     private JdbcUserRepository testRepo;
 
-    @Before
-    public void before(){
-    }
-
     @Test
     public void shouldReturnAllUsers() throws Exception{
         List<User> users = testRepo.findAll();
@@ -40,6 +35,7 @@ public class JdbcUserRepositoryTest {
     public void shouldReturnUserById() throws Exception{
         User user = testRepo.findOne(1);
 
+        assertNotNull(user);
         assertEquals(user.getEmail(), "email1");
         assertEquals(user.getUsername(), "username1");
         assertEquals(user.getPassword(), "password1");
@@ -49,6 +45,7 @@ public class JdbcUserRepositoryTest {
     public void shouldReturnUserByUsername() throws Exception{
         User user = testRepo.findOne("username1");
 
+        assertNotNull(user);
         assertEquals(user.getId(), 1);
         assertEquals(user.getEmail(), "email1");
         assertEquals(user.getPassword(), "password1");
@@ -64,10 +61,7 @@ public class JdbcUserRepositoryTest {
     }
 
     @Test
-    public void shouldFailRegisterReturnNull() throws Exception{
-        User user = new User("email1", "username1", "password1");
-        user = testRepo.register(user);
-
-        assertNull(user);
+    public void shouldThrowUsernameExistsException() throws Exception{
+        //still need to figure this out
     }
 }
