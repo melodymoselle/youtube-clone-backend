@@ -1,6 +1,4 @@
-package com.melex.models;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+package youtube.models;
 
 public class Video {
     private int id;

@@ -1,7 +1,7 @@
-package com.melex.api;
+package youtube.api;
 
-import com.melex.data.VideoRepository;
-import com.melex.models.Video;
+import youtube.data.VideoRepository;
+import youtube.models.Video;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

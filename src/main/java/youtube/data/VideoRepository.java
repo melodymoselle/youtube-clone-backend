@@ -1,7 +1,7 @@
-package com.melex.data;
+package youtube.data;
 
-import com.melex.models.User;
-import com.melex.models.Video;
+import youtube.models.User;
+import youtube.models.Video;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

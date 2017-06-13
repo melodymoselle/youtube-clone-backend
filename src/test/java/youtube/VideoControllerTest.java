@@ -1,9 +1,9 @@
-package com.melex;
+package youtube;
 
-import com.melex.api.VideoController;
-import com.melex.data.VideoRepository;
-import com.melex.models.User;
-import com.melex.models.Video;
+import youtube.api.VideoController;
+import youtube.data.VideoRepository;
+import youtube.models.User;
+import youtube.models.Video;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -90,7 +90,7 @@ public class VideoControllerTest {
 
 
     private List<Video> createVideoList(int count) {
-        List<Video> videos = new ArrayList<Video>();
+        List<Video> videos = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             videos.add(new Video(i, TITLE + i, AUTHOR));
         }
