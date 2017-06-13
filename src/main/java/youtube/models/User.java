@@ -1,10 +1,10 @@
-package com.melex.models;
+package youtube.models;
 
 import java.util.List;
 
 public class User {
 
-    private long id;
+    private int id;
     private String email;
     private String username;
     private String password;
@@ -13,7 +13,7 @@ public class User {
     public User() {
     }
 
-    public User(long id, String email, String username, String password) {
+    public User(int id, String email, String username, String password) {
         this.id = id;
         this.email = email;
         this.username = username;
@@ -26,11 +26,11 @@ public class User {
         this.password = password;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
