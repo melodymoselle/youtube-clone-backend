@@ -3,20 +3,23 @@ package youtube.models;
 public class Video {
     private int id;
     private String title;
-    private User author;
+    private String filename;
+    private String username;
 
     public Video() {
     }
 
-    public Video(String title, User author) {
+    public Video(String title, String filename, String username) {
         this.title = title;
-        this.author = author;
+        this.filename = filename;
+        this.username = username;
     }
 
-    public Video(int id, String title, User author) {
+    public Video(int id, String title, String filename, String username) {
         this.id = id;
         this.title = title;
-        this.author = author;
+        this.filename = filename;
+        this.username = username;
     }
 
     public int getId() {
@@ -35,12 +38,20 @@ public class Video {
         this.title = title;
     }
 
-    public User getAuthor() {
-        return author;
+    public String getFilename() {
+        return filename;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override

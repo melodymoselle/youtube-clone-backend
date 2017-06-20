@@ -83,8 +83,8 @@ public class UserControllerTest {
         when(userRepository.register(UNSAVED)).thenReturn(SAVED);
 
         mockMvc.perform(post("/api/users/register")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(json))
+            .contentType(MediaType.APPLICATION_JSON_UTF8)
+            .content(json))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.id", is(ID)))
