@@ -57,7 +57,7 @@ public class JdbcUserRepository implements UserRepository{
             throw new UsernameExistsException(user.getUsername());
         }
         user.setId(keys.getKey().intValue());
-
+        user.setPassword(null);
         return user;
     }
 

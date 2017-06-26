@@ -29,11 +29,6 @@ public class UserController {
         return userRepository.findOne(username);
     }
 
-    @RequestMapping(value = "/register", method = POST)
-    @ResponseStatus(HttpStatus.CREATED)
-    public User register(@RequestBody User user) {
-        return userRepository.register(user);
-    }
 
 
 }

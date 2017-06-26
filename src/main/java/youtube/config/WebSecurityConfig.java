@@ -1,42 +1,69 @@
 package youtube.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import youtube.security.RESTAuthEntryPoint;
-import youtube.security.RESTAuthFailureHandler;
-import youtube.security.RESTAuthSuccessHandler;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.session.MapSessionRepository;
+import org.springframework.session.SessionRepository;
+import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
+import org.springframework.session.web.http.HeaderHttpSessionStrategy;
 
-@Configuration
+import javax.sql.DataSource;
+
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
-
+@Configuration
+@EnableSpringHttpSession
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private RESTAuthEntryPoint authenticationEntryPoint;
-    @Autowired
-    private RESTAuthFailureHandler authenticationFailureHandler;
-    @Autowired
-    private RESTAuthSuccessHandler authenticationSuccessHandler;
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-            .inMemoryAuthentication()
-                .withUser("user").password("user").roles("USER")
-                .and()
-                .withUser("admin").password("admin").roles("ADMIN");
-    }
+    private DataSource dataSource;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/api/**").authenticated();
-        http.csrf().disable();
-        http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
-        http.formLogin().successHandler(authenticationSuccessHandler);
-        http.formLogin().failureHandler(authenticationFailureHandler);
+        String[] patterns = new String[] {
+                "/",
+                "/register",
+                "/login",
+                "/users/**",
+                "/videos/**"
+        };
+
+        http
+                .authorizeRequests()
+                .antMatchers(patterns)
+                .permitAll()
+                .antMatchers("/upload")
+                .hasRole("USER")
+                .and()
+                .csrf()
+                .disable()
+                .httpBasic();
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .jdbcAuthentication()
+                .dataSource(dataSource)
+                .usersByUsernameQuery(
+                        "SELECT * FROM users WHERE id = ?")
+                .authoritiesByUsernameQuery(
+                        "select username, 'ROLE_USER' from Spitter where username=?")
+                .passwordEncoder(new StandardPasswordEncoder("53cr3t"));
+    }
+
+    @Bean
+    public SessionRepository sessionRepository() {
+        return new MapSessionRepository();
+    }
+
+    @Bean
+    public HeaderHttpSessionStrategy sessionStrategy() {
+        return new HeaderHttpSessionStrategy();
     }
 }
