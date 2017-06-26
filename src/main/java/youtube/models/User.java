@@ -1,11 +1,14 @@
 package youtube.models;
 
+import java.util.List;
+
 public class User {
 
     private int id;
     private String email;
     private String username;
     private String password;
+//    private List<Video> videos;
 
     public User() {
     }
@@ -54,6 +57,14 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+//    public List<Video> getVideos() {
+//        return videos;
+//    }
+//
+//    public void setVideos(List<Video> videos) {
+//        this.videos = videos;
+//    }
 
     @Override
     public boolean equals(Object o) {

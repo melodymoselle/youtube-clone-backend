@@ -14,7 +14,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,8 +83,8 @@ public class UserControllerTest {
         when(userRepository.register(UNSAVED)).thenReturn(SAVED);
 
         mockMvc.perform(post("/api/users/register")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(json))
+            .contentType(MediaType.APPLICATION_JSON_UTF8)
+            .content(json))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.id", is(ID)))
@@ -99,7 +98,7 @@ public class UserControllerTest {
     private List<User> createUserList(int count) {
         List<User> users = new ArrayList<User>();
         for (int i = 0; i < count; i++) {
-            users.add(new User(i, "Email " + i, "Username " + i, "Password " + i));
+            users.add(new User(i, EMAIL+ i, UNAME + i, PWORD + i));
         }
         return users;
     }
