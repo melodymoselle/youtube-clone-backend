@@ -1,8 +1,9 @@
 CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(255) NOT NULL,
-    username VARCHAR(45) UNIQUE NOT NULL,
-    password VARCHAR(45) NOT NULL
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(255) NOT NULL,
+  username VARCHAR(45) UNIQUE NOT NULL,
+  password VARCHAR(45) NOT NULL,
+  enabled TINYINT NOT NULL DEFAULT 1
 );
 
 CREATE TABLE user_roles (
@@ -16,5 +17,25 @@ CREATE TABLE user_roles (
 );
 
 CREATE TABLE videos (
-  id
-)
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL UNIQUE,
+  filename VARCHAR(255) NOT NULL,
+  username VARCHAR(255) NOT NULL
+);
+
+INSERT INTO users(email,username,password,enabled)
+VALUES ( 'email', 'melmo','word',true);
+INSERT INTO users(email,username,password,enabled)
+VALUES ( 'email', 'ted','ball',true);
+
+INSERT INTO user_roles (username, role)
+VALUES ('melmo', 'ROLE_USER');
+INSERT INTO user_roles (username, role)
+VALUES ('melmo', 'ROLE_ADMIN');
+INSERT INTO user_roles (username, role)
+VALUES ('ted', 'ROLE_USER');
+
+INSERT INTO videos(title,filename,username)
+VALUES ('some cool video', 'somefile', 'melmo');
+INSERT INTO videos(title,filename,username)
+VALUES ('a cooler video', 'somefile', 'ted');
